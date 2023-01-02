@@ -15,12 +15,13 @@
                88 WS-EXISTING-CUST  VALUE 2.
                88 WS-EXIT           VALUE 0.
 
-           01 WS-BANK-RECORD OCCURS 50 TIMES INDEXED BY I.
-               02 WS-BANK-ACCOUNT         PIC 9(8).
-               02 WS-ACCT-NAME.
-                   05 WS-FNAME            PIC X(20).
-                   05 WS-LNAME            PIC X(30).
-               02 WS-BALANCE              PIC 9(8).
+           01 WS-BANK-DB-TABLE.
+               02 WS-BANK-RECORD OCCURS 50 TIMES INDEXED BY I.
+                   03 WS-BANK-ACCOUNT         PIC 9(8).
+                   03 WS-ACCT-NAME.
+                       05 WS-FNAME            PIC X(20).
+                       05 WS-LNAME            PIC X(30).
+                   03 WS-BALANCE              PIC 9(8).
 
            01 WS-IDX                      PIC 9(2) VALUE 01.
 
@@ -56,7 +57,9 @@
                    AT END
                        DISPLAY "BANK RECORD DOES NOT EXIST"
                    WHEN WS-BANK-ACCOUNT(I) = WS-IN-ACCT
-                       DISPLAY "ACCOUNT EXISTS"
+                       CALL 'EXIST-CUST'  USING REFERENCE
+                                           WS-BALANCE(I)
+                                           WS-BANK-ACCOUNT(I)
                END-SEARCH.
 
            A0500-WELCOME-SCREEN.
