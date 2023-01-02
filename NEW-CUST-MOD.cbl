@@ -14,9 +14,12 @@
            01 LS-ACCT-NAME.
                2 LS-FNAME            PIC X(20).
                2 LS-LNAME            PIC X(30).
+           02 LS-BALANCE             PIC 9(8).
+           01 LS-IDX                 PIC 9(2) VALUE 1.
 
        PROCEDURE DIVISION USING LS-ACCT-NAME
                                 LS-BANK-ACCOUNT.
+
 
        MAIN-PROCEDURE.
            A1000-GET-USER-INFORMATION.
@@ -26,7 +29,9 @@
                ACCEPT LS-FNAME
                DISPLAY 'WELCOME, ' LS-FNAME
                DISPLAY 'LAST NAME?'
-               ACCEPT LS-LNAME.
+               ACCEPT LS-LNAME
+               DISPLAY 'ENTER INITIAL DEPOSIT'
+               ACCEPT LS-BALANCE.
 
            A2000-GENERATE-ACCOUNT-NO.
               MOVE FUNCTION CURRENT-DATE(9:8) to LS-BANK-ACCOUNT.
