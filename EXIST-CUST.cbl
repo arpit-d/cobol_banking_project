@@ -17,10 +17,10 @@
            01 LS-ACCT-NAME.
                2 LS-FNAME            PIC X(20).
                2 LS-LNAME            PIC X(30).
-           01 LS-BALANCE             PIC 9(8).
+           01 LS-BAL                 PIC 9(8).
            01 LS-IDX                 PIC 9(2) VALUE 1.
 
-       PROCEDURE DIVISION USING LS-BALANCE
+       PROCEDURE DIVISION USING LS-BAL
                                 LS-BANK-ACCOUNT.
 
 
@@ -46,7 +46,8 @@
                    WHEN 0
                    WHEN 4
                        DISPLAY "GOING BACK TO HOME PANEL"
-                       EXIT.
+                       EXIT
+                       GOBACK.
 
            A2000-PROCESS-WITH-AND-DEP.
                DISPLAY "ENTER AMOUNT TO WITHDRAW"
@@ -56,14 +57,14 @@
                    PERFORM MAIN
                ELSE
                    IF WS-USER-CHOICE = 1
-                      IF WS-INPUT-AMOUNT > LS-BALANCE
+                      IF WS-INPUT-AMOUNT > LS-BAL
                         DISPLAY "CAN'T WITHDRAW MORE THAN ACCNT BALANCE"
                       ELSE
-                       COMPUTE LS-BALANCE = LS-BALANCE - WS-INPUT-AMOUNT
+                       COMPUTE LS-BAL = LS-BAL - WS-INPUT-AMOUNT
                        DISPLAY "SUCCESFULLY WITHDRAWED"
                       END-IF
                    ELSE
-                       COMPUTE LS-BALANCE = LS-BALANCE + WS-INPUT-AMOUNT
+                       COMPUTE LS-BAL = LS-BAL + WS-INPUT-AMOUNT
                        DISPLAY "SUCCESFULLY DEPOSITED"
                    END-IF
                PERFORM A9000-DISPLAY-BALANCE
@@ -71,8 +72,7 @@
                PERFORM A1000-DISPLAY-USER-MENU.
 
            A9000-DISPLAY-BALANCE.
-               MOVE LS-BALANCE TO WS-BAL-AFTR-PROC
+               MOVE LS-BAL TO WS-BAL-AFTR-PROC
                DISPLAY "CURRENT BALANCE IS " WS-BAL-AFTR-PROC
-
 
        EXIT.

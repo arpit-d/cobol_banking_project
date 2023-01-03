@@ -12,13 +12,14 @@
        LINKAGE SECTION.
            01 LS-BANK-ACCOUNT        PIC 9(8).
            01 LS-ACCT-NAME.
-               2 LS-FNAME            PIC X(20).
-               2 LS-LNAME            PIC X(30).
+               02 LS-FNAME            PIC X(20).
+               02 LS-LNAME            PIC X(30).
            01 LS-BALANCE             PIC 9(8).
            01 LS-IDX                 PIC 9(2) VALUE 1.
 
        PROCEDURE DIVISION USING LS-ACCT-NAME
-                                LS-BANK-ACCOUNT.
+                                LS-BANK-ACCOUNT
+                                LS-BALANCE.
 
 
        MAIN-PROCEDURE.

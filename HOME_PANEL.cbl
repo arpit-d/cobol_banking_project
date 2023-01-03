@@ -37,7 +37,9 @@
                    CALL 'NEW-CUST-MOD'  USING REFERENCE
                                            WS-ACCT-NAME(WS-IDX)
                                            WS-BANK-ACCOUNT(WS-IDX)
-                   DISPLAY WS-BANK-RECORD(I)
+                                           WS-BALANCE(WS-IDX)
+                   DISPLAY WS-BANK-RECORD(WS-IDX)
+
                    COMPUTE WS-IDX = WS-IDX + 1
                    PERFORM MAIN
                WHEN WS-EXISTING-CUST
@@ -51,12 +53,16 @@
            END-EVALUATE.
 
            A5000-HANDLE-EXISTING-CUSTOMER.
+           *>SETTING INDEX VALUE TO 1 SO THAT SEARCH ALWAYS STARTS
+           *>FROM 1 AND NOT THE CURRENT VALUE OF INDEX
+               SET I TO 1
                DISPLAY "WELCOME BACK, PLEASE ENTER YOUR BANK ACCT NO"
                ACCEPT WS-IN-ACCT
                SEARCH WS-BANK-RECORD
                    AT END
                        DISPLAY "BANK RECORD DOES NOT EXIST"
                    WHEN WS-BANK-ACCOUNT(I) = WS-IN-ACCT
+
                        CALL 'EXIST-CUST'  USING REFERENCE
                                            WS-BALANCE(I)
                                            WS-BANK-ACCOUNT(I)
